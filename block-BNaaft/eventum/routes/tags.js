@@ -1,19 +1,19 @@
-const express = require("express");
-const Tag = require("../models/Tag");
-const router = express.Router();
+// const express = require("express");
+// const Category = require("../models/Category");
+// const router = express.Router();
 
-router.get("/:id", (req, res, next) => {
-  const id = req.params.id;
-  Tag.findById(id)
-    .populate("events")
-    .exec((err, tag) => {
-      if (err) return next(err);
-      Tag.find({}, (err, tags) => {
-        if (err) return next(err);
-        console.log(tag, tags);
-        res.render("eventsList", { events: tag.events, tags });
-      });
-    });
-});
+// router.get("/:id", (req, res, next) => {
+//   const id = req.params.id;
+//   Category.findById(id)
+//     .populate("events")
+//     .exec((err, Category) => {
+//       if (err) return next(err);
+//       Category.find({}, (err, Categorys) => {
+//         if (err) return next(err);
+//         console.log(Category, Categorys);
+//         res.render("eventsList", { events: Category.events, Categorys });
+//       });
+//     });
+// });
 
-module.exports = router;
+// module.exports = router;

@@ -1,73 +1,44 @@
 const express = require("express");
-const { events } = require("../models/Event");
 const router = express.Router();
 const Event = require("../models/Event");
 const Remark = require("../models/Remark");
-const Tag = require("../models/Tag");
 
-router.get("/new", (req, res, next) => {
-  res.render("eventForm");
-});
-
-// router.post("/", (req, res, next) => {
-//   req.body.categories = req.body.categories.split(",");
-//   Event.create(req.body, (err, createdEvent) => {
-//     if (err) return next(err);
-//     res.redirect("/events");
-//   });
-// });
-
-router.get("/latest", (req, res, next) => {
-  Event.find({})
-    .sort({ start_date: -1 })
-    .exec((err, events) => {
-      if (err) return next(err);
-      Tag.find({}, (err, tags) => {
-        if (err) return next(err);
-        res.render("eventsList", { events, tags });
-      });
-    });
-});
-
-router.get("/oldest", (req, res, next) => {
-  Event.find({})
-    .sort({ start_date: 1 })
-    .exec((err, events) => {
-      if (err) return next(err);
-      Tag.find({}, (err, tags) => {
-        if (err) return next(err);
-        res.render("eventsList", { events, tags });
-      });
-    });
+router.get("/new", (req, res) => {
+  res.render("eventForm.ejs");
 });
 
 router.post("/", (req, res, next) => {
   req.body.categories = req.body.categories.split(",");
   Event.create(req.body, (err, createdEvent) => {
     if (err) return next(err);
-    req.body.categories.forEach((category) => {
-      Tag.findOneAndUpdate(
-        { name: category },
-        { $set: { name: category }, $push: { events: createdEvent.id } },
-        { upsert: true },
-        (err, updatedCategory) => {
-          if (err) return next(err);
-          console.log("updated");
-        }
-      );
-    });
     res.redirect("/events");
   });
 });
 
 router.get("/", (req, res, next) => {
-  Event.find({}, (err, events) => {
-    if (err) return next(err);
-    Tag.find({}, (err, tags) => {
+  if (req.query.category) {
+    Event.find({ categories: req.query.category }, (err, events) => {
       if (err) return next(err);
-      res.render("eventsList", { events, tags });
+      res.render("eventsList", { events });
     });
-  });
+  } else if (req.query.location) {
+    Event.find({ location: req.query.location }, (err, events) => {
+      if (err) return next(err);
+      res.render("eventsList", { events });
+    });
+  } else if (req.query.date) {
+    Event.find({})
+      .sort({ start_date: req.query.date })
+      .exec((err, events) => {
+        if (err) return next(err);
+        res.render("eventsList", { events });
+      });
+  } else {
+    Event.find({}, (err, events) => {
+      if (err) return next(err);
+      res.render("eventsList", { events });
+    });
+  }
 });
 
 router.get("/:id", (req, res, next) => {
@@ -81,37 +52,27 @@ router.get("/:id", (req, res, next) => {
 });
 
 router.get("/:id/edit", (req, res, next) => {
-  const event_id = req.params.id;
-  Event.findById(event_id, (err, event) => {
+  const id = req.params.id;
+  Event.findById(id, (err, event) => {
     if (err) return next(err);
     res.render("updateEventForm", { event });
   });
 });
 
 router.post("/:id", (req, res, next) => {
-  const event_id = req.params.id;
+  const id = req.params.id;
   req.body.categories = req.body.categories.split(",");
-  Event.findByIdAndUpdate(event_id, req.body, (err, updatedEvent) => {
+  Event.findByIdAndUpdate(id, req.body, (err, updatedEvent) => {
     if (err) return next(err);
-    res.redirect("/events/" + event_id);
+    res.redirect("/events/" + id);
   });
 });
 
 router.get("/:id/delete", (req, res, next) => {
-  const event_id = req.params.id;
-  Event.findByIdAndDelete(event_id, (err, deletedEvent) => {
+  const id = req.params.id;
+  Event.findByIdAndDelete(id, (err, deletedEvent) => {
     if (err) return next(err);
-    deletedEvent.categories.forEach((category) => {
-      Tag.findOneAndUpdate(
-        { name: category },
-        { $pull: { events: deletedEvent.id } },
-        (err, updatedTag) => {
-          if (err) return next(err);
-          console.log("event no longer belong to this event");
-        }
-      );
-    });
-    Remark.deleteMany({ eventId: event_id }, (err, info) => {
+    Remark.deleteMany({ eventId: id }, (err, info) => {
       if (err) return next(err);
       res.redirect("/events");
     });
@@ -128,7 +89,6 @@ router.post("/:id/remarks", (req, res, next) => {
       { $push: { remarks: createdRemark.id } },
       (err, updatedEvent) => {
         if (err) return next(err);
-        console.log(updatedEvent);
         res.redirect("/events/" + id);
       }
     );
@@ -140,17 +100,6 @@ router.get("/:id/likes", (req, res, next) => {
   Event.findByIdAndUpdate(id, { $inc: { likes: 1 } }, (err, updatedEvent) => {
     if (err) return next(err);
     res.redirect("/events/" + id);
-  });
-});
-
-router.get("/:loc_name/location", (req, res, next) => {
-  let location = req.params.loc_name;
-  Event.find({ location: location }, (err, events) => {
-    if (err) return next(err);
-    Tag.find({}, (err, tags) => {
-      if (err) return next(err);
-      res.render("eventsList", { events, tags });
-    });
   });
 });
 
