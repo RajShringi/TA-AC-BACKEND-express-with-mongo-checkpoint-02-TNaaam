@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="scroll-smooth">
+  <head>
+    <title>Eventum</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="text-gray-600">
+    <%- include('partials/header')%>
+    <div class="container mx-auto">
+      <div class="flex justify-center items-center">
+        <form
+          class="max-w-xl w-full bg-slate-200 my-8 rounded p-4"
+          action="/events/<%= event.id %>"
+          method="post"
+        >
+          <input
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            type="text"
+            name="title"
+            placeholder="Title"
+            value="<%=event.title%>"
+          />
+          <textarea
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            name="summary"
+            placeholder="Summary"
+            cols="30"
+            rows="10"
+          >
+         <%=event.summary%>
+        </textarea
+          >
+          <input
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            type="text"
+            name="host"
+            placeholder="Host"
+            value="<%=event.host%>"
+          />
+          <input
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            type="date"
+            name="start_date"
+            placeholder="Start Date"
+            value="<%= event.start_date.toISOString().substring(0, 10) %>"
+          />
+          <input
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            type="date"
+            name="end_date"
+            placeholder="End Date"
+            value="<%= event.end_date.toISOString().substring(0, 10) %>"
+          />
+          <input
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            type="text"
+            name="categories"
+            placeholder="Categories comma seprated"
+            value="<%= event.categories.join(',') %>"
+          />
+          <input
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            type="text"
+            name="location"
+            placeholder="Location"
+            value="<%= event.location %>"
+          />
+          <input
+            class="block w-full p-4 my-3 rounded focus:outline-none"
+            type="text"
+            name="cover_img_url"
+            placeholder="Cover Image Url"
+            value="<%= event.cover_img_url %>"
+          />
+          <input
+            type="submit"
+            value="Update Event"
+            class="inline-block py-2 px-4 rounded-full text-white bg-gradient-to-r from-pink-400 to-yellow-500 transition-all hover:scale-95"
+          />
+        </form>
+      </div>
+    </div>
+    <%- include('partials/footer')%>
+  </body>
+</html>

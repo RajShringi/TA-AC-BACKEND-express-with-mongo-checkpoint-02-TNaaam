@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html class="scroll-smooth">
+  <head>
+    <title>Eventum</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="text-gray-600">
+    <%- include('partials/header')%>
+    <div class="container mx-auto">
+      <div class="flex justify-center items-center">
+        <form
+          class="max-w-xl w-full bg-slate-200 my-8 rounded p-4"
+          action="/remarks/<%= remark.id %>"
+          method="post"
+        >
+          <textarea
+            class="block p-4 border-2 rounded-lg mb-4 w-full"
+            name="title"
+            cols="70"
+            rows="10"
+            placeholder="Add Remark"
+          >
+<%= remark.title.trim() %>
+        </textarea
+          >
+          <input
+            type="text"
+            name="author"
+            placeholder="Author"
+            class="block p-4 border-2 rounded-lg mb-4 w-full"
+            value="<%= remark.author %>"
+          />
+          <input
+            type="submit"
+            value="Update Remark"
+            class="inline-block py-2 px-4 rounded-full text-white bg-gradient-to-r from-pink-400 to-yellow-500 transition-all hover:scale-95"
+          />
+        </form>
+      </div>
+    </div>
+    <%- include('partials/footer')%>
+  </body>
+</html>

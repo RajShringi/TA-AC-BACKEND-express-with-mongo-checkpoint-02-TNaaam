@@ -10,6 +10,7 @@ const eventSchema = new Schema(
     end_date: Date,
     categories: [{ type: String }],
     location: String,
+    cover_img_url: String,
     likes: { type: Number, default: 0 },
     remarks: [{ type: Schema.Types.ObjectId, ref: "Remark" }],
   },

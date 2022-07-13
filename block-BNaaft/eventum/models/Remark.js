@@ -6,7 +6,7 @@ const remarkSchema = new Schema(
     title: { type: String, required: true },
     author: { type: String, required: true },
     likes: { type: Number, default: 0 },
-    event: { type: Schema.Types.ObjectId, ref: "Event" },
+    eventId: { type: Schema.Types.ObjectId, ref: "Event", required: true },
   },
   { timestamps: true }
 );
