@@ -1,4 +1,6 @@
 const express = require("express");
+const app = require("../app");
+const { events } = require("../models/Event");
 const router = express.Router();
 const Event = require("../models/Event");
 const Remark = require("../models/Remark");
@@ -15,30 +17,60 @@ router.post("/", (req, res, next) => {
   });
 });
 
+router.use("/", (req, res, next) => {
+  Event.distinct("categories", {}).exec((err, categories) => {
+    res.locals.categoriesArr = categories;
+    Event.distinct("location", {}).exec((err, locations) => {
+      res.locals.locationsArr = locations;
+      next();
+    });
+  });
+});
+
 router.get("/", (req, res, next) => {
-  if (req.query.category) {
-    Event.find({ categories: req.query.category }, (err, events) => {
-      if (err) return next(err);
-      res.render("eventsList", { events });
-    });
+  let searchQuery;
+  let date;
+  if (req.query.categories) {
+    searchQuery = req.query;
   } else if (req.query.location) {
-    Event.find({ location: req.query.location }, (err, events) => {
-      if (err) return next(err);
-      res.render("eventsList", { events });
-    });
+    searchQuery = req.query;
   } else if (req.query.date) {
-    Event.find({})
-      .sort({ start_date: req.query.date })
-      .exec((err, events) => {
-        if (err) return next(err);
-        res.render("eventsList", { events });
-      });
+    searchQuery = {};
+    date = req.query.date;
   } else {
-    Event.find({}, (err, events) => {
-      if (err) return next(err);
-      res.render("eventsList", { events });
-    });
+    searchQuery = {};
   }
+
+  Event.find(searchQuery)
+    .sort({ start_date: date })
+    .exec((err, events) => {
+      if (err) return next(err);
+      console.log(res.locals.locationsArr, res.locals.categoriesArr, date);
+      res.render("eventsList", {
+        events,
+        locationsArr: res.locals.locationsArr,
+        categoriesArr: res.locals.categoriesArr,
+      });
+    });
+});
+
+router.post("/inbetween", (req, res, next) => {
+  Event.find(
+    {
+      $and: [
+        { start_date: { $gte: req.body.startDate } },
+        { end_date: { $lte: req.body.endDate } },
+      ],
+    },
+    (err, events) => {
+      if (err) return next(err);
+      res.render("eventsList", {
+        events,
+        locationsArr: res.locals.locationsArr,
+        categoriesArr: res.locals.categoriesArr,
+      });
+    }
+  );
 });
 
 router.get("/:id", (req, res, next) => {
