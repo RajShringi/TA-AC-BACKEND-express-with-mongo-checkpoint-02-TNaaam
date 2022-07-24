@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html class="scroll-smooth">
+  <head>
+    <title>Eventum</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="text-gray-600">
+    <%- include('partials/header')%>
+    <main>
+      <!-- Hero Section -->
+      <div id="hero" class="hero-section mb-16">
+        <div class="flex justify-center items-center h-[80vh]">
+          <div class="max-w-xl">
+            <h1 class="text-white text-7xl text-center font-bold mb-4">
+              For Events & Conference
+            </h1>
+            <p class="text-white text-center text-lg mb-6">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+              Corrupti, in iure delectus dolores unde quam? Lorem ipsum dolor
+              sit amet, consectetur adipisicing elit. Placeat, illum.
+            </p>
+            <div class="text-center">
+              <a
+                class="py-2 px-4 mb-4 rounded-full text-white border-2 border-white transition-all bg-transparent hover:scale-95 inline-block"
+                href="#"
+                >Join Event</a
+              >
+              <div>
+                <i class="fa-solid fa-arrow-down text-white p-4 animate-bounce text-2xl"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- About -->
+      <div id="about" class="mb-16">
+        <div class="container mx-auto">
+          <div class="flex justify-between items-center">
+            <!-- Image -->
+            <div class="basis-1/2 px-8">
+              <img
+                class="rounded-3xl"
+                src="/images/samantha-gades-fIHozNWfcvs-unsplash.jpg"
+                alt=""
+              />
+            </div>
+            <!-- About summary -->
+            <div class="basis-1/2 px-8">
+              <h2 class="text-4xl font-bold text-gray-700 mb-8">
+                About The Event
+              </h2>
+              <p class="mb-8">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
+                iure obcaecati quam quod maxime, est voluptates assumenda odio
+                nulla quis. Lorem ipsum, dolor sit amet consectetur adipisicing
+                elit. Tempore dolore quisquam nemo molestiae eum mollitia.
+              </p>
+              <a href="#" class="inline-block py-2 px-4 rounded-full text-white bg-gradient-to-r from-pink-400 to-yellow-500 transition-all hover:scale-95""
+                >Know More >></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Latest News -->
+      <div id="news" class="bg-slate-50 py-8">
+        <h2 class="text-4xl text-gray-700 text-center mb-8 font-bold"> Our Latest News</h2>
+        <div class="container mx-auto">
+          <div class="flex justify-between items-center">
+            <div class="basis-[30%]">
+              <img class="rounded-xl w-96 h-72 object-cover" src="/images/kelli-tungay-2LJ4rqK2qfU-unsplash.jpg" alt="">
+              <h4 class="text-xl font-bold text-gray-700 my-2">How to build great portfolio as a beginer developer</h4>
+              <p class="mb-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta recusandae dignissimos eum nostrum quos consectetur provident animi culpa?</p>
+              <a href="#" class="inline-block text-pink-500">Read More >></a>
+            </div>
+
+            <div class="basis-[30%]">
+              <img class="rounded-xl w-96 h-72 object-cover" src="/images/roman-synkevych-UT8LMo-wlyk-unsplash.jpg" alt="">
+              <h4 class="text-xl font-bold text-gray-700 my-2">4 common situations while using Git and how to solve them</h4>
+              <p class="mb-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta recusandae dignissimos eum nostrum quos consectetur provident animi culpa?</p>
+              <a href="#" class="inline-block text-pink-500">Read More >></a>
+            </div>
+
+            <div class="basis-[30%]">
+              <img class="rounded-xl w-96 h-72 object-cover" src="/images/brooke-cagle--uHVRvDr7pg-unsplash.jpg" alt="">
+              <h4 class="text-xl font-bold text-gray-700 my-2">Basic Unix commands that you should know</h4>
+              <p class="mb-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta recusandae dignissimos eum nostrum quos consectetur provident animi culpa?</p>
+              <a href="#" class="inline-block text-pink-500">Read More >></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include('partials/footer')%>
+  </body>
+</html>

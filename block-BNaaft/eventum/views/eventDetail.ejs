@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="scroll-smooth">
+  <head>
+    <title>Eventum</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="text-gray-600">
+    <%- include('partials/header')%>
+    <div class="container mx-auto mt-6">
+      <div
+        class="bg-red-700 mx-auto h-[600px] overflow-hidden aspect-w-16 aspect-h-9 rounded"
+      >
+        <img
+          class="w-full .h-auto object-cover"
+          src="<%= event.cover_img_url %>"
+          alt=""
+        />
+      </div>
+      <h1 class="my-4 text-2xl text-gray-700 font-semibold">
+        <%= event.title %>
+      </h1>
+      <% event.categories.forEach(category => { %>
+      <a href="#" class="inline-block px-4 py-2 mr-4 bg-slate-200 rounded"
+        ><%= category %></a
+      >
+      <% }) %>
+      <p class="my-4"><%= event.summary %></p>
+      <p class="my-4 text-xl">
+        <i class="fa-solid fa-heart text-red-500"></i> <%= event.likes %>
+      </p>
+      <p class="my-4">
+        <span class="inline-block px-4 py-2 mr-4 bg-slate-300 rounded"
+          >Host: <%= event.host %></span
+        >
+        <span class="inline-block px-4 py-2 mr-4 bg-slate-300 rounded"
+          >Location: <%= event.location %></span
+        >
+      </p>
+      <p class="my-4">
+        <span class="inline-block py-2 mr-4"
+          >Start: <%= event.start_date.toISOString().substring(0, 10) %></span
+        >
+        <span class="inline-block py-2 mr-4"
+          >End: <%= event.end_date.toISOString().substring(0, 10) %></span
+        >
+      </p>
+      <div class="flex items-center justify-start space-x-8 my-4">
+        <a
+          href="/events/<%= event.id %>/edit"
+          class="inline-block px-4 py-2 mr-4 bg-cyan-500 text-white rounded"
+          >Edit</a
+        >
+        <a
+          href="/events/<%= event.id %>/delete"
+          class="inline-block px-4 py-2 mr-4 bg-red-500 text-white rounded"
+          >Delete</a
+        >
+        <a
+          href="/events/<%= event.id %>/likes"
+          class="inline-block px-4 py-2 mr-4 bg-green-500 text-white rounded"
+          >Like</a
+        >
+      </div>
+      <form
+        class="mb-8 max-w-xl"
+        action="/events/<%= event.id %>/remarks"
+        method="post"
+      >
+        <textarea
+          class="block p-4 border-2 rounded-lg mb-4 w-full"
+          name="title"
+          cols="70"
+          rows="10"
+          placeholder="Add Remark"
+        ></textarea>
+        <input
+          type="text"
+          name="author"
+          placeholder="Author"
+          class="block p-4 border-2 rounded-lg mb-4 w-full"
+        />
+        <input
+          class="block py-2 px-4 rounded-full text-white bg-gradient-to-r from-pink-400 to-yellow-500 transition-all hover:scale-95"
+          type="submit"
+          value="Add Remark"
+        />
+      </form>
+
+      <div>
+        <h2 class="text-xl text-gray-700 font-medium border-b mb-8">
+          Comments
+        </h2>
+        <% event.remarks.forEach(remark => { %>
+        <div class="bg-slate-50 p-4 rounded mb-2">
+          <p class="text-xl text-gray-500 mb-4"><%= remark.title %></p>
+          <p class="mb-4"><%= remark.author %></p>
+          <p class="my-4 text-xl">
+            <i class="fa-solid fa-heart text-red-500"></i> <%= remark.likes %>
+          </p>
+          <div class="flex items-center justify-start space-x-4 my-4">
+            <a
+              href="/remarks/<%= remark.id %>/edit"
+              class="inline-block px-4 py-2 mr-4 bg-cyan-500 text-white rounded"
+              >Edit</a
+            >
+            <a
+              href="/remarks/<%= remark.id %>/delete"
+              class="inline-block px-4 py-2 mr-4 bg-red-500 text-white rounded"
+              >Delete</a
+            >
+            <a
+              href="/remarks/<%= remark.id %>/likes"
+              class="inline-block px-4 py-2 mr-4 bg-green-500 text-white rounded"
+              >Like</a
+            >
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+    <%- include('partials/footer')%>
+  </body>
+</html>
